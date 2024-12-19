@@ -1,14 +1,20 @@
 "use client";
 import React, { useState } from "react";
 import { LogoABC, IconMenu, IconLogin } from "@public/icons";
+import ModalLogin from "../modalRegister/modalRegister";
 
-const SideNav = () => {
+const SideNav: React.FC = () => {
   //Local State
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   //Functions
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleToggleModal = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   //UI
@@ -29,8 +35,9 @@ const SideNav = () => {
             </li>
           </ul>
         </nav>
+        {/* logo login */}
         <div className="hidden sm:block ml-auto text-white  p-4 scale-95 hover:scale-125  transition-transform duration-200">
-          <button>
+          <button onClick={handleToggleModal}>
             <IconLogin />
           </button>
         </div>
@@ -55,12 +62,19 @@ const SideNav = () => {
             <li className="border-b-2 scale-95 hover:scale-100 transition-transform duration-200">
               Favoritas
             </li>
-            <li className="border-b-2 scale-95 hover:scale-100 transition-transform duration-200">
+            <li
+              className="border-b-2 scale-95 hover:scale-100 transition-transform duration-200"
+              onClick={handleToggleModal}
+            >
               Iniciar Sesión
             </li>
           </ul>
         </nav>
       )}
+      <ModalLogin
+        isModalOpen={isModalOpen}
+        handleToggleModal={handleToggleModal}
+      />
     </section>
   );
 };

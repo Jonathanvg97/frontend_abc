@@ -5,9 +5,9 @@
 :root {
   --background: #2b2929;
   --foreground: #171717;
+  --primary: #f0b90b;
+  --neutral: #1c1c1c;
 }
-
-
 
 body {
   color: var(--foreground);
