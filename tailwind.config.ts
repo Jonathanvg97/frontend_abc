@@ -13,6 +13,7 @@ export default {
         foreground: "var(--foreground)",
         primary: "var(--primary)",
         neutral: "var(--neutral)",
+        success: "var(--success)",
       },
     },
   },

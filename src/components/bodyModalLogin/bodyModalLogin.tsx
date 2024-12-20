@@ -5,16 +5,22 @@ type Props = {
   handleToggleModal: () => void;
   handleRegister: () => void;
   currentView: string;
+  isModalOpen: boolean;
 };
 export default function BodyModalLogin({
   handleToggleModal,
   handleRegister,
   currentView,
+  isModalOpen,
 }: Props) {
   return (
     <article className="w-full flex flex-col lg:flex-row shadow-lg 2 rounded-lg overflow-hidden">
       {/* Left Section: Buttons and Form */}
-      <div className="w-full flex flex-col gap-8 bg-transparent p-4 lg:p-8">
+      <div
+        className={`w-full flex flex-col gap-8  p-4 lg:p-8 bg-transparent ${
+          isModalOpen && "backdrop-blur-xl"
+        }`}
+      >
         {/* Back Button */}
         <button
           onClick={handleToggleModal}

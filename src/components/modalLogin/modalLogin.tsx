@@ -32,12 +32,14 @@ const ModalLogin: React.FC<Props> = ({ isModalOpen, handleToggleModal }) => {
               handleToggleModal={handleToggleModal}
               handleToggleLogin={handleToggleLogin}
               currentView={currentView}
+              isModalOpen={isModalOpen}
             />
           ) : currentView === "login" ? (
             <BodyModalLogin
               handleToggleModal={handleToggleModal}
               handleRegister={handleToggleRegister}
               currentView={currentView}
+              isModalOpen={isModalOpen}
             />
           ) : null}
         </section>

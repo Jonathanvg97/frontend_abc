@@ -11,10 +11,12 @@ const SideNav: React.FC = () => {
   //Functions
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+    setIsModalOpen(false);
   };
 
   const handleToggleModal = () => {
     setIsModalOpen(!isModalOpen);
+    setIsMenuOpen(false);
   };
 
   //UI
@@ -54,7 +56,7 @@ const SideNav: React.FC = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <nav className="absolute top-24 left-0 bg-black w-full text-white p-4  shadow-lg rounded-md block sm:hidden">
+        <nav className="absolute top-24 left-0 bg-black w-full text-white p-4  shadow-lg rounded-md block sm:hidden z-50">
           <ul className="flex flex-col gap-4 ">
             <li className="border-b-2 scale-95 hover:scale-100 transition-transform duration-200">
               Popular
