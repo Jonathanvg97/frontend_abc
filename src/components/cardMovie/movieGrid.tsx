@@ -45,6 +45,38 @@ const initialMovies: Movie[] = [
     rating: 95,
     isFavorite: false,
   },
+  {
+    id: "6",
+    title: "The Wild Robot",
+    posterUrl: "/placeholder.svg?height=450&width=300",
+    releaseDate: "2024-08-02",
+    rating: 90,
+    isFavorite: false,
+  },
+  {
+    id: "7",
+    title: "Deadpool Wolverine",
+    posterUrl: "/placeholder.svg?height=450&width=300",
+    releaseDate: "2024-08-05",
+    rating: 95,
+    isFavorite: false,
+  },
+  {
+    id: "8",
+    title: "The Wild Robot",
+    posterUrl: "/placeholder.svg?height=450&width=300",
+    releaseDate: "2024-08-02",
+    rating: 90,
+    isFavorite: false,
+  },
+  {
+    id: "9",
+    title: "Deadpool Wolverine",
+    posterUrl: "/placeholder.svg?height=450&width=300",
+    releaseDate: "2024-08-05",
+    rating: 95,
+    isFavorite: false,
+  },
 ];
 
 const MovieGrid = () => {

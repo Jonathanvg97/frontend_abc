@@ -5,9 +5,16 @@ import MovieSidebar from "@/components/movieSidebar/movieSidebar";
 const Home = () => {
   return (
     <MainLayout>
-      <MovieSidebar />
-      <MovieGrid />
+      <div className="flex h-full">
+        {/* Sidebar */}
+        <MovieSidebar />
+        {/* Movie Grid */}
+        <div className="flex-1 p-6 overflow-y-auto">
+          <MovieGrid />
+        </div>
+      </div>
     </MainLayout>
   );
 };
+
 export default Home;
