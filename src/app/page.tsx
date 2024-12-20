@@ -1,11 +1,5 @@
-import Banner from "@/components/banner/banner";
-import SideNav from "@/components/sideNav/sideNav";
+import Home from "@/pages/home/page";
 
-export default function Home() {
-  return (
-    <>
-      <SideNav />
-      <Banner />
-    </>
-  );
+export default function Page() {
+  return <Home />;
 }
