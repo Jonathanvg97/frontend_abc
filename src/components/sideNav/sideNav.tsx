@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { LogoABC, IconMenu, IconLogin } from "@public/icons";
-import ModalLogin from "../modalRegister/modalRegister";
+import ModalLogin from "../modalLogin/modalLogin";
 
 const SideNav: React.FC = () => {
   //Local State
@@ -13,7 +13,7 @@ const SideNav: React.FC = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleToggleModal = () => {
+  const handleToggleModal = (): void => {
     setIsModalOpen(!isModalOpen);
   };
 
