@@ -13,7 +13,7 @@ const SideNav: React.FC = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleToggleModal = (): void => {
+  const handleToggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 

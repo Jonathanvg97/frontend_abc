@@ -2,40 +2,47 @@
 import { useState } from "react";
 import BodyModalRegister from "../bodyModalRegister/bodyModalRegister";
 import BodyModalLogin from "../bodyModalLogin/bodyModalLogin";
+import { ModalView } from "@/utils/types/typesModal";
 
-type props = {
+type Props = {
   isModalOpen: boolean;
-  handleToggleModal: () => string;
+  handleToggleModal: () => void;
 };
 
-const ModalLogin: React.FC<props> = ({ isModalOpen, handleToggleModal }) => {
-  //Local State
-  const [isLogin, setIsLogin] = useState<string>("isRegister");
+const ModalLogin: React.FC<Props> = ({ isModalOpen, handleToggleModal }) => {
+  // Local State
+  const [currentView, setCurrentView] = useState<ModalView>("register");
 
-  //Functions
+  // Functions
   const handleToggleLogin = (): void => {
-    setIsLogin("isLogin");
+    setCurrentView("login");
   };
 
-  const handleRegister = (): void => {
-    setIsLogin("isRegister");
+  const handleToggleRegister = (): void => {
+    setCurrentView("register");
   };
 
-  //UI
+  // UI
   return (
-    <section className="ModalLogin absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[90%] lg:w-[100%] bg-opacity-50 flex items-center justify-center z-50 p-4">
-      {isModalOpen && !isLogin ? (
-        <BodyModalRegister
-          handleToggleModal={handleToggleModal}
-          handleToggleLogin={handleToggleLogin}
-        />
-      ) : isModalOpen && isLogin ? (
-        <BodyModalLogin
-          handleToggleModal={handleToggleModal}
-          handleRegister={handleRegister}
-        />
-      ) : null}
-    </section>
+    <>
+      {isModalOpen && (
+        <section className="ModalLogin absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[90%] lg:w-[100%] bg-opacity-50 flex items-center justify-center z-50 p-4">
+          {currentView === "register" ? (
+            <BodyModalRegister
+              handleToggleModal={handleToggleModal}
+              handleToggleLogin={handleToggleLogin}
+              currentView={currentView}
+            />
+          ) : currentView === "login" ? (
+            <BodyModalLogin
+              handleToggleModal={handleToggleModal}
+              handleRegister={handleToggleRegister}
+              currentView={currentView}
+            />
+          ) : null}
+        </section>
+      )}
+    </>
   );
 };
 

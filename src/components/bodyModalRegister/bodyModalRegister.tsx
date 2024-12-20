@@ -4,13 +4,14 @@ import Image from "next/image";
 type Props = {
   handleToggleModal: () => void;
   handleToggleLogin: () => void;
+  currentView: string;
 };
 export default function BodyModalRegister({
   handleToggleModal,
   handleToggleLogin,
+  currentView,
 }: Props) {
   return (
-    <section className="BodyModalRegister">
       <article className="w-full flex flex-col lg:flex-row shadow-lg  rounded-lg overflow-hidden">
         {/* Left Section: Buttons and Form */}
         <div className="w-full flex flex-col gap-8 bg-transparent p-4 lg:p-8">
@@ -24,12 +25,18 @@ export default function BodyModalRegister({
 
           {/* Centered Content */}
           <div className="flex justify-center mb-10 md:mb-16 lg:mb-24">
-            <button className="bg-primary text-white text-sm font-medium p-2 w-24 rounded-lg z-10 scale-100 hover:scale-125">
+            <button
+              className={`${
+                currentView === "register" ? "bg-primary" : "bg-neutral"
+              } text-white text-sm font-medium p-2 w-24 rounded-lg z-10 scale-100 hover:scale-125`}
+            >
               Sign up
             </button>
             <button
               onClick={handleToggleLogin}
-              className="bg-neutral text-white text-sm font-medium p-2 w-24 rounded-lg -ml-1 scale-100 hover:scale-125"
+              className={`${
+                currentView === "login" ? "bg-primary" : "bg-neutral"
+              } text-white text-sm font-medium p-2 w-24 rounded-lg -ml-1 scale-100 hover:scale-125`}
             >
               Log in
             </button>
@@ -66,6 +73,5 @@ export default function BodyModalRegister({
           />
         </div>
       </article>
-    </section>
   );
 }
