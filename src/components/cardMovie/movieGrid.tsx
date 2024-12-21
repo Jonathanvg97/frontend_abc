@@ -1,102 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { Movie } from "@/utils/types/movieTypes";
 import CardMovie from "./cardMovie";
+import useMovies from "@/hooks/useMovies";
+import { useMovieStore } from "@/store/useMovieStore";
 
-const initialMovies: Movie[] = [
-  {
-    id: "1",
-    title: "Shrek 5",
-    posterUrl: "/placeholder.svg?height=450&width=300",
-    releaseDate: "2024-08-01",
-    rating: 75,
-    isFavorite: false,
-  },
-  {
-    id: "2",
-    title: "Gladiator II",
-    posterUrl: "/placeholder.svg?height=450&width=300",
-    releaseDate: "2024-08-16",
-    rating: 88,
-    isFavorite: false,
-  },
-  {
-    id: "3",
-    title: "One Fast Move",
-    posterUrl: "/placeholder.svg?height=450&width=300",
-    releaseDate: "2024-08-08",
-    rating: 85,
-    isFavorite: false,
-  },
-  {
-    id: "4",
-    title: "The Wild Robot",
-    posterUrl: "/placeholder.svg?height=450&width=300",
-    releaseDate: "2024-08-02",
-    rating: 90,
-    isFavorite: false,
-  },
-  {
-    id: "5",
-    title: "Deadpool Wolverine",
-    posterUrl: "/placeholder.svg?height=450&width=300",
-    releaseDate: "2024-08-05",
-    rating: 95,
-    isFavorite: false,
-  },
-  {
-    id: "6",
-    title: "The Wild Robot",
-    posterUrl: "/placeholder.svg?height=450&width=300",
-    releaseDate: "2024-08-02",
-    rating: 90,
-    isFavorite: false,
-  },
-  {
-    id: "7",
-    title: "Deadpool Wolverine",
-    posterUrl: "/placeholder.svg?height=450&width=300",
-    releaseDate: "2024-08-05",
-    rating: 95,
-    isFavorite: false,
-  },
-  {
-    id: "8",
-    title: "The Wild Robot",
-    posterUrl: "/placeholder.svg?height=450&width=300",
-    releaseDate: "2024-08-02",
-    rating: 90,
-    isFavorite: false,
-  },
-  {
-    id: "9",
-    title: "Deadpool Wolverine",
-    posterUrl: "/placeholder.svg?height=450&width=300",
-    releaseDate: "2024-08-05",
-    rating: 95,
-    isFavorite: false,
-  },
-];
+interface MovieGridProps {
+  initialMovies: Movie[];
+}
 
-const MovieGrid = () => {
-  const [movies, setMovies] = useState<Movie[]>(initialMovies);
+const MovieGrid = ({ initialMovies }: MovieGridProps) => {
+  const { allMovies } = useMovieStore();
+  const { getAllPopularMovies } = useMovies(initialMovies);
+  const { toggleFavorite } = useMovieStore();
 
-  const handleToggleFavorite = (id: string) => {
-    setMovies(
-      movies.map((movie) =>
-        movie.id === id ? { ...movie, isFavorite: !movie.isFavorite } : movie
-      )
-    );
-  };
+  // Efecto para cargar datos iniciales si es necesario
+  useEffect(() => {
+    if (allMovies.length === 0) {
+      getAllPopularMovies(1);
+    }
+  }, [getAllPopularMovies, allMovies.length]);
 
   return (
     <div className="grid grid-cols-2 gap-4 p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-      {movies.map((movie) => (
+      {(allMovies.length > 0 ? allMovies : initialMovies).map((movie) => (
         <CardMovie
           key={movie.id}
           movie={movie}
-          onToggleFavorite={handleToggleFavorite}
+          onToggleFavorite={() => toggleFavorite(movie.id)}
         />
       ))}
     </div>
