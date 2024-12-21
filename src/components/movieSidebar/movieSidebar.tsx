@@ -8,7 +8,6 @@ export default function MovieSidebar() {
   const { searchValue, setSearchValue } = useMovieStore();
   //Hook
   const { getAllGenres, genres } = useMovies();
-  console.log(genres.map((gen) => gen.name));
 
   //Local states
   const [isOpen, setIsOpen] = useState(true);
@@ -41,7 +40,7 @@ export default function MovieSidebar() {
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchQuery = e.target.value.trim();
+    const searchQuery = e.target.value;
     setSearchValue(searchQuery);
   };
   //UI
@@ -141,8 +140,8 @@ export default function MovieSidebar() {
             >
               {genres?.map((gen) => (
                 <button
-                  key={gen.id} // Use a unique property like `id`
-                  onClick={() => handleGenreClick(gen.name)} // Adjust to use `gen.name`
+                  key={gen.id}
+                  onClick={() => handleGenreClick(gen.name)}
                   className={`w-full px-4 py-2 text-left rounded-md transition-colors
       ${
         selectedGenre === gen.name

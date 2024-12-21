@@ -6,6 +6,7 @@ import { useMovieStore } from "@/store/useMovieStore";
 import { useEffect, useState } from "react";
 import MoviePaginate from "../moviePaginate/moviePaginate";
 import useMovies from "@/hooks/useMovies";
+import MoviesNotFound from "../moviesNotFound/moviesNotFound";
 
 interface MovieGridProps {
   initialMovies: Movie[];
@@ -36,9 +37,7 @@ const MovieGrid = ({ initialMovies, moviesPerPage = 10 }: MovieGridProps) => {
   }, [searchValue, allMovies, handleFilterMovies]);
 
   //Functions
-  // Se usa `allMovies` si está disponible, de lo contrario, `initialMovies`
-  const moviesToDisplay =
-    filteredMovies.length > 0 ? filteredMovies : allMovies;
+  const moviesToDisplay = searchValue ? filteredMovies : allMovies;
   // Calcular el número total de páginas
   const totalPages = Math.ceil(moviesToDisplay.length / moviesPerPage);
 
@@ -56,22 +55,33 @@ const MovieGrid = ({ initialMovies, moviesPerPage = 10 }: MovieGridProps) => {
   //UI
   return (
     <div>
-      <div className="grid grid-cols-2 gap-4 p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-        {currentMovies.map((movie) => (
-          <CardMovie
-            key={movie.id}
-            movie={movie}
-            onToggleFavorite={() =>
-              useMovieStore.getState().toggleFavorite(movie.id)
-            }
+      {moviesToDisplay.length === 0 ? (
+        <MoviesNotFound
+          title="No Movies Found"
+          description="We couldn't find any movies matching your search. Try exploring our collection or refine your search criteria."
+          actionText="Clear Search"
+          onAction={() => useMovieStore.getState().setSearchValue("")}
+        />
+      ) : (
+        <>
+          <div className="grid grid-cols-2 gap-4 p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {currentMovies.map((movie) => (
+              <CardMovie
+                key={movie.id}
+                movie={movie}
+                onToggleFavorite={() =>
+                  useMovieStore.getState().toggleFavorite(movie.id)
+                }
+              />
+            ))}
+          </div>
+          <MoviePaginate
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
           />
-        ))}
-      </div>
-      <MoviePaginate
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+        </>
+      )}
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import { IconEmail, IconnBack } from "@public/icons";
-import Image from "next/image";
 
 type Props = {
   handleToggleModal: () => void;
@@ -70,12 +69,10 @@ export default function BodyModalRegister({
           </p>
         </div>
 
-        <Image
+        <img
           className=" md:w-60 md:h-60 lg:w-[547px] lg:h-[547px] lg:-mt-28"
           src="/images/user.png"
           alt="User icon"
-          width={547}
-          height={546}
         />
       </div>
     </article>

@@ -9,7 +9,8 @@ const useMovies = () => {
 
   // Función para filtrar las películas
   const handleFilterMovies = useCallback((movies: Movie[], query: string) => {
-    const lowerCaseQuery = query.toLowerCase();
+    const lowerCaseQuery = query.toLowerCase().trim();
+
     const filtered = movies.filter((movie) =>
       movie.title.toLowerCase().includes(lowerCaseQuery)
     );
