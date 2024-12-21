@@ -8,6 +8,8 @@ interface MovieState {
   setAllMovies: (movies: Movie[]) => void;
   addMovies: (movies: Movie[]) => void;
   toggleFavorite: (id: string) => void;
+  searchValue: string;
+  setSearchValue: (value: string) => void;
 }
 
 const stateCreator: StateCreator<MovieState> = (set) => ({
@@ -23,6 +25,8 @@ const stateCreator: StateCreator<MovieState> = (set) => ({
         movie.id === id ? { ...movie, isFavorite: !movie.isFavorite } : movie
       ),
     })),
+  searchValue: "",
+  setSearchValue: (value: string) => set({ searchValue: value }),
 });
 
 export const useMovieStore = create<MovieState>(

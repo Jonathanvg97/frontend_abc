@@ -1,5 +1,5 @@
 "use client";
-
+import { useMovieStore } from "@/store/useMovieStore";
 import { useState, useEffect } from "react";
 
 const genres = [
@@ -19,11 +19,14 @@ const genres = [
 ];
 
 export default function MovieSidebar() {
+  //Store
+  const { searchValue, setSearchValue } = useMovieStore();
+  //Local states
   const [isOpen, setIsOpen] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  //Effects
   // Cerrar el menú móvil cuando se redimensiona la pantalla
   useEffect(() => {
     const handleResize = () => {
@@ -36,6 +39,7 @@ export default function MovieSidebar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  //Functions
   const handleGenreClick = (genre: string) => {
     setSelectedGenre(genre);
     if (window.innerWidth < 768) {
@@ -43,6 +47,11 @@ export default function MovieSidebar() {
     }
   };
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchQuery = e.target.value.trim();
+    setSearchValue(searchQuery);
+  };
+  //UI
   return (
     <>
       {/* Botón de menú móvil */}
@@ -94,9 +103,9 @@ export default function MovieSidebar() {
             <div className="relative">
               <input
                 type="text"
-                placeholder="Keywords"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by title"
+                value={searchValue}
+                onChange={handleSearch}
                 className="w-full p-2 pr-8 py-2 bg-zinc-900 border border-zinc-800 rounded-md text-white placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-700"
               />
               <svg

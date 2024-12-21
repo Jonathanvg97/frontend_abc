@@ -17,6 +17,7 @@ export const getAllMovies = async (
         page: page || 1, // Si no se pasa página, toma la 1
       },
     });
+
     return response.data;
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
@@ -28,5 +29,30 @@ export const getAllMovies = async (
       console.error("Unexpected error:", error);
     }
     return null;
+  }
+};
+
+export const getMoviesImages = async (slugs: string[]) => {
+  try {
+    const responses = await Promise.all(
+      slugs.map((slug) =>
+        axios.get(`${API_URL}${pathsAPIS.GET_IMAGES}/${slug}`, {
+          headers: {
+            Authorization: envs.TOKEN_ACCESS,
+          },
+        })
+      )
+    );
+    return responses.map((response) => response.data);
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      console.error(
+        "Error fetching images:",
+        error.response?.data || error.message
+      );
+    } else {
+      console.error("Unexpected error:", error);
+    }
+    return [];
   }
 };

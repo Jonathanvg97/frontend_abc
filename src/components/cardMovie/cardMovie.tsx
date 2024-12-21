@@ -1,6 +1,7 @@
 import { MovieCardProps } from "@/utils/types/movieTypes";
 
 const CardMovie = ({ movie, onToggleFavorite }: MovieCardProps) => {
+  // Formatear la fecha
   const formattedDate = new Date(movie.releaseDate).toLocaleDateString(
     "es-ES",
     {
@@ -30,7 +31,7 @@ const CardMovie = ({ movie, onToggleFavorite }: MovieCardProps) => {
             <div className="flex flex-col items-center">
               <span className="text-xs text-zinc-400">Score</span>
               <span className="text-sm font-bold text-white">
-                {Math.round(movie.rating)}%
+                {Math.round(movie.rating)}
               </span>
             </div>
             <div className="flex flex-col items-center">
