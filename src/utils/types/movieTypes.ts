@@ -40,3 +40,12 @@ export interface MovieCardProps {
   movie: Movie;
   onToggleFavorite: (id: string) => void;
 }
+
+export type Genre = {
+  id: string;
+  name: string;
+  slug: string;
+};
+export interface Genres {
+  data: Genre[];
+}

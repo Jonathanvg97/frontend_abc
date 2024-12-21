@@ -1,6 +1,6 @@
 import envs from "@/config/envs";
 import pathsAPIS from "@/config/paths";
-import { MoviesResponse } from "@/utils/types/movieTypes";
+import { Genre, MoviesResponse } from "@/utils/types/movieTypes";
 import axios, { AxiosError } from "axios";
 
 const API_URL = envs.BASE_API_URL || "";
@@ -48,6 +48,27 @@ export const getMoviesImages = async (slugs: string[]) => {
     if (error instanceof AxiosError) {
       console.error(
         "Error fetching images:",
+        error.response?.data || error.message
+      );
+    } else {
+      console.error("Unexpected error:", error);
+    }
+    return [];
+  }
+};
+
+export const getGenres = async () => {
+  try {
+    const response = await axios.get(`${API_URL}${pathsAPIS.GENRES}`, {
+      headers: {
+        Authorization: envs.TOKEN_ACCESS,
+      },
+    });
+    return response.data.data as Genre[];
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      console.error(
+        "Error fetching genres:",
         error.response?.data || error.message
       );
     } else {

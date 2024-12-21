@@ -1,26 +1,15 @@
 "use client";
+import useMovies from "@/hooks/useMovies";
 import { useMovieStore } from "@/store/useMovieStore";
 import { useState, useEffect } from "react";
-
-const genres = [
-  "Action",
-  "Adventure",
-  "Animation",
-  "Comedy",
-  "Crime",
-  "Documentary",
-  "Drama",
-  "Family",
-  "Fantasy",
-  "History",
-  "Horror",
-  "Music",
-  "Mystery",
-];
 
 export default function MovieSidebar() {
   //Store
   const { searchValue, setSearchValue } = useMovieStore();
+  //Hook
+  const { getAllGenres, genres } = useMovies();
+  console.log(genres.map((gen) => gen.name));
+
   //Local states
   const [isOpen, setIsOpen] = useState(true);
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
@@ -38,6 +27,10 @@ export default function MovieSidebar() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    getAllGenres();
+  }, [getAllGenres]);
 
   //Functions
   const handleGenreClick = (genre: string) => {
@@ -140,23 +133,24 @@ export default function MovieSidebar() {
               </span>
             </button>
             <div className="h-px bg-zinc-800 w-full" />
+
             <div
               className={`space-y-1 overflow-hidden  transition-all duration-200 ${
-                isOpen ? "max-h-96" : "max-h-0"
+                isOpen ? "max-h-96 overflow-y-auto" : "max-h-0"
               }`}
             >
-              {genres.map((genre) => (
+              {genres?.map((gen) => (
                 <button
-                  key={genre}
-                  onClick={() => handleGenreClick(genre)}
+                  key={gen.id} // Use a unique property like `id`
+                  onClick={() => handleGenreClick(gen.name)} // Adjust to use `gen.name`
                   className={`w-full px-4 py-2 text-left rounded-md transition-colors
-                    ${
-                      selectedGenre === genre
-                        ? "bg-[#1C1C1C] text-white"
-                        : "text-zinc-400 hover:text-white hover:bg-zinc-900"
-                    }`}
+      ${
+        selectedGenre === gen.name
+          ? "bg-[#1C1C1C] text-white"
+          : "text-zinc-400 hover:text-white hover:bg-zinc-900"
+      }`}
                 >
-                  {genre}
+                  {gen.name}
                 </button>
               ))}
             </div>
