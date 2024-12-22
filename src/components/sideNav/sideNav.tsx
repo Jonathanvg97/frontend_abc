@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LogoABC, IconMenu, IconLogin } from "@public/icons";
 import ModalLogin from "../modalLogin/modalLogin";
 import { useRouter } from "next/navigation";
@@ -27,7 +27,6 @@ const SideNav: React.FC = () => {
   };
 
   // Función para navegar
-  // Función para navegar
   const handleNavClick = (route: string) => {
     if (currentRoute !== route) {
       setCurrentRoute(route); // Solo actualizar si el route es diferente
@@ -35,8 +34,7 @@ const SideNav: React.FC = () => {
     router.push(route); // Navegar a la nueva ruta
   };
 
-  // useEffect(() => {
-  // }, [currentRoute]);
+  useEffect(() => {}, [currentRoute]);
 
   //UI
   return (

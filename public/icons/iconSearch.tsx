@@ -1,7 +1,7 @@
 export const IconSearch = () => {
   return (
     <svg
-      className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400"
+      className="absolute right-10 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="none"

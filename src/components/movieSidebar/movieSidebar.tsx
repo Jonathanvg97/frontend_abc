@@ -101,7 +101,9 @@ export default function MovieSidebar() {
                 onChange={handleSearch}
                 className="w-full p-2 pr-8 py-2 bg-zinc-900 border border-zinc-800 rounded-md text-white placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-700"
               />
-              <IconSearch />
+              <div className="flex">
+                <IconSearch />
+              </div>
             </div>
           </div>
 

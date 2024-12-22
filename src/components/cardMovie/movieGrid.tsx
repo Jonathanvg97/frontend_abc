@@ -1,19 +1,30 @@
 "use client";
 
+import { useRouter, usePathname } from "next/navigation";
+import { useTransition } from "react";
+import { MovieGridSkeleton } from "../UI/movieSkeleton";
 import { Movie } from "@/utils/types/movieTypes";
-import CardMovie from "./cardMovie";
+import CardMovie from "@/components/cardMovie/cardMovie";
 import { useMovieStore } from "@/store/useMovieStore";
 import { useEffect, useState } from "react";
-import MoviePaginate from "../moviePaginate/moviePaginate";
+import MoviePaginate from "@/components/moviePaginate/moviePaginate";
 import useMovies from "@/hooks/useMovies";
-import MoviesNotFound from "../moviesNotFound/moviesNotFound";
+import MoviesNotFound from "@/components/moviesNotFound/moviesNotFound";
 
 interface MovieGridProps {
   initialMovies: Movie[];
   moviesPerPage?: number;
 }
 
-const MovieGrid = ({ initialMovies, moviesPerPage = 10 }: MovieGridProps) => {
+export default function MovieGrid({
+  initialMovies,
+  moviesPerPage = 10,
+}: MovieGridProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(true);
+
   // Store
   const {
     allMovies,
@@ -23,6 +34,7 @@ const MovieGrid = ({ initialMovies, moviesPerPage = 10 }: MovieGridProps) => {
     favoriteMovies,
     currentRoute,
   } = useMovieStore();
+
   // Hook
   const {
     handleFilterMovies,
@@ -30,53 +42,63 @@ const MovieGrid = ({ initialMovies, moviesPerPage = 10 }: MovieGridProps) => {
     getMovieInfo,
     handleToggleFavorite,
   } = useMovies();
+
   // Local state
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   // Effects
   useEffect(() => {
+    setIsLoading(true);
     if (allMovies.length === 0 && initialMovies.length > 0) {
-      setAllMovies(initialMovies); // Set the initial movies in the global state
+      setAllMovies(initialMovies);
     }
+    setIsLoading(false);
   }, [allMovies, initialMovies, setAllMovies]);
 
   useEffect(() => {
-    // Apply filter when search value changes
+    // Show loading state when route changes
+    setIsLoading(true);
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false);
+    }, 500); // Add a minimum loading time to prevent flashing
+
+    return () => clearTimeout(timeoutId);
+  }, [pathname]);
+
+  useEffect(() => {
     handleFilterMovies(allMovies, searchValue);
-    // Reset the page to 1 when filters or search change
     setCurrentPage(1);
   }, [searchValue, allMovies, handleFilterMovies]);
 
-  // Handle the removal of a favorite movie
   useEffect(() => {
-    // Check if we have enough movies to stay on the current page
     if (
       currentRoute === "/favoriteMovies" &&
       favoriteMovies.length <= (currentPage - 1) * moviesPerPage
     ) {
-      // If the current page becomes empty after removing a movie, go to the previous page
       if (currentPage > 1) {
         setCurrentPage(currentPage - 1);
       }
     }
   }, [favoriteMovies, currentPage, moviesPerPage, currentRoute]);
 
-  // Functions
-  const moviesToDisplay = searchValue ? filteredMovies : allMovies;
+  // Show loading state during transitions
+  if (isPending || isLoading) {
+    return <MovieGridSkeleton />;
+  }
 
-  // Calculate the total pages for pagination
+  const moviesToDisplay = searchValue ? filteredMovies : allMovies;
   const totalMovies =
     currentRoute === "/favoriteMovies"
       ? favoriteMovies.length
       : moviesToDisplay.length;
   const totalPages = Math.ceil(totalMovies / moviesPerPage);
 
-  // Function to handle page changes
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    startTransition(() => {
+      setCurrentPage(page);
+    });
   };
 
-  // Adjust pagination logic when viewing favorite movies
   const startIndex = (currentPage - 1) * moviesPerPage;
   const currentMovies =
     currentRoute === "/favoriteMovies"
@@ -96,38 +118,50 @@ const MovieGrid = ({ initialMovies, moviesPerPage = 10 }: MovieGridProps) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // UI
+  if (currentRoute === "/favoriteMovies" && favoriteMovies.length === 0) {
+    return (
+      <MoviesNotFound
+        title="No Favorite Movies"
+        description="You don't have any favorite movies yet. Start adding some to your favorites list!"
+        actionText="View Movies"
+        onAction={() => {
+          startTransition(() => {
+            router.push("/");
+          });
+        }}
+      />
+    );
+  }
+
+  if (moviesToDisplay.length === 0) {
+    return (
+      <MoviesNotFound
+        title="No Movies Found"
+        description="We couldn't find any movies matching your search. Try exploring our collection or refine your search criteria."
+        actionText="Clear Search"
+        onAction={() => useMovieStore.getState().setSearchValue("")}
+      />
+    );
+  }
+
   return (
     <div>
-      {moviesToDisplay.length === 0 ? (
-        <MoviesNotFound
-          title="No Movies Found"
-          description="We couldn't find any movies matching your search. Try exploring our collection or refine your search criteria."
-          actionText="Clear Search"
-          onAction={() => useMovieStore.getState().setSearchValue("")}
-        />
-      ) : (
-        <>
-          <div className="grid grid-cols-2 gap-4 p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {currentMovies.map((movie) => (
-              <CardMovie
-                key={movie.id}
-                movie={movie}
-                getMovieInfo={handleGetMovieInfo}
-                handleToggleFavorite={handleToggleFavorite}
-                isFavorite={favoriteMovies.some((fav) => fav.id === movie.id)}
-              />
-            ))}
-          </div>
-          <MoviePaginate
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
+      <div className="grid grid-cols-2 gap-4 p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        {currentMovies.map((movie) => (
+          <CardMovie
+            key={movie.id}
+            movie={movie}
+            getMovieInfo={handleGetMovieInfo}
+            handleToggleFavorite={handleToggleFavorite}
+            isFavorite={favoriteMovies.some((fav) => fav.id === movie.id)}
           />
-        </>
-      )}
+        ))}
+      </div>
+      <MoviePaginate
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
-};
-
-export default MovieGrid;
+}

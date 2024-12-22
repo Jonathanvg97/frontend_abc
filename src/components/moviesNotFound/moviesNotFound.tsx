@@ -12,7 +12,7 @@ const MoviesNotFound = ({
   onAction,
 }: MoviesNotFoundProps) => {
   return (
-    <div className="flex flex-col items-center justify-center h-full text-center space-y-4 p-4">
+    <div className="flex flex-col items-center justify-center h-full text-center p-4">
       <h1 className="text-4xl font-semibold text-primary">{title}</h1>
       <div className="w-full max-w-xs md:max-w-md">
         <img

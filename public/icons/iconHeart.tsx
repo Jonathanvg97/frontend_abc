@@ -1,13 +1,13 @@
 interface IconHeartProps {
   isFavorite: boolean;
+  className?: string;
 }
 
-export const IconHeart = ({ isFavorite }: IconHeartProps) => {
+export const IconHeart = ({isFavorite = false, className = "" }: IconHeartProps) => {
   return (
     <svg
-      className={`h-5 w-5 transition-colors ${
-        isFavorite ? "text-red-500" : "text-white group-hover/fav:text-red-500"
-      }`}
+     
+      className={className}
       fill={isFavorite ? "currentColor" : "none"}
       stroke="currentColor"
       viewBox="0 0 24 24"

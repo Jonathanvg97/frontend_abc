@@ -53,7 +53,14 @@ const CardMovie = ({
                 onClick={() => handleToggleFavorite(movie.id)}
                 className="group/fav mt-0.5 cursor-pointer"
               >
-                <IconHeart isFavorite={isFavorite} />
+                <IconHeart
+                  isFavorite={isFavorite}
+                  className={`h-5 w-5 transition-colors ${
+                    isFavorite
+                      ? "text-red-500"
+                      : "text-white group-hover/fav:text-red-500"
+                  }`}
+                />
               </div>
             </div>
           </div>

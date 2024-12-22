@@ -45,6 +45,11 @@ const Banner = () => {
           >
             <IconHeart
               isFavorite={favoriteMovies.some((movie) => movie.id === id)}
+              className={`h-5 w-5 transition-colors ${
+                favoriteMovies.some((movie) => movie.id === id)
+                  ? "text-red-500"
+                  : "text-white group-hover/fav:text-red-500"
+              }`}
             />
           </button>
           <div className={styles.Banner__percentage}>97%</div>
