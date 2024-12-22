@@ -26,7 +26,7 @@ const ModalLogin: React.FC<Props> = ({ isModalOpen, handleToggleModal }) => {
   return (
     <>
       {isModalOpen && (
-        <section className="ModalLogin absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[90%] lg:w-[100%] bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <section className="ModalLogin fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[90%] lg:w-[100%] bg-opacity-50 flex items-center justify-center z-50 p-4">
           {currentView === "register" ? (
             <BodyModalRegister
               handleToggleModal={handleToggleModal}

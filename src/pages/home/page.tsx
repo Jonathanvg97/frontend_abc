@@ -40,7 +40,7 @@ const Home = async () => {
           {/* Sidebar */}
           <MovieSidebar />
           {/* Movie Grid */}
-          <div className="flex-1 p-6 overflow-y-auto">
+          <div className="flex-1 p-6">
             <MovieGrid initialMovies={moviesWithImages} />
           </div>
         </div>

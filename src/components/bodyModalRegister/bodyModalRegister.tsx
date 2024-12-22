@@ -15,10 +15,13 @@ export default function BodyModalRegister({
   return (
     <article className="w-full flex flex-col lg:flex-row shadow-lg  rounded-lg overflow-hidden">
       {/* Left Section: Buttons and Form */}
+
+      {isModalOpen && (
+        <div className="fixed inset-y-0 left-4 right-4 bg-black bg-opacity-50 backdrop-blur-xl z-0 rounded-lg"></div>
+      )}
+
       <div
-        className={`w-full flex flex-col gap-8  p-4 lg:p-8 bg-transparent ${
-          isModalOpen && "backdrop-blur-xl"
-        }`}
+        className={`relative w-full flex flex-col gap-8 p-4 lg:p-8 bg-transparent z-10`}
       >
         {/* Back Button */}
         <button
@@ -58,7 +61,7 @@ export default function BodyModalRegister({
       </div>
 
       {/* Right Section: Welcome Message and Image */}
-      <div className="flex flex-col w-full  items-center text-white bg-neutral relative">
+      <div className="flex flex-col w-full  items-center text-white bg-neutral relative p-12 ">
         <div className="flex flex-col items-center text-center ">
           <h2 className="text-xl md:text-2xl  mb-10 md:mb-16 lg:mb-16 font-bold mt-4">
             Welcome to Quickbet <br /> Movies!

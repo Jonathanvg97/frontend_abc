@@ -134,7 +134,7 @@ export default function MovieSidebar() {
             <div className="h-px bg-zinc-800 w-full" />
 
             <div
-              className={`space-y-1 overflow-hidden  transition-all duration-200 ${
+              className={`space-y-1 scrollbar  transition-all duration-200 ${
                 isOpen ? "max-h-96 overflow-y-auto" : "max-h-0"
               }`}
             >
