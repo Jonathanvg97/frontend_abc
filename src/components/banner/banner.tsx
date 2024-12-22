@@ -1,12 +1,16 @@
+"use client";
 import { IconHeart } from "@public/icons";
 import React from "react";
 import styles from "./banner.module.css";
-type BannerProps = {
-  backgroundImage?: string;
-};
+import { useMovieStore } from "@/store/useMovieStore";
+import useMovies from "@/hooks/useMovies";
 
-const Banner = ({ backgroundImage }: BannerProps) => {
-  backgroundImage = "images/banner.jpeg";
+const Banner = () => {
+  //Store
+  const { defaultDataBanner, favoriteMovies } = useMovieStore();
+  //Hook
+  const { handleToggleFavorite } = useMovies();
+  const { id, title, posterUrl, description } = defaultDataBanner || {};
 
   return (
     <section className={styles.Banner}>
@@ -14,7 +18,7 @@ const Banner = ({ backgroundImage }: BannerProps) => {
         {/* Imagen de fondo */}
         <div
           className={styles.Banner__backgroundImage}
-          style={{ backgroundImage: `url(${backgroundImage})` }}
+          style={{ backgroundImage: `url(${posterUrl})` }}
         />
 
         {/* Degradado */}
@@ -23,12 +27,10 @@ const Banner = ({ backgroundImage }: BannerProps) => {
         {/* Contenido del texto */}
         <div className={styles.Banner__content}>
           <h1 className="text-4xl font-bold" style={{ margin: 0 }}>
-            Kung Fu Panda 4
+            {title}
           </h1>
           <p className="text-lg font-medium" style={{ margin: 0 }}>
-            Join Po and the Furious Five on a new epic adventure! Discover the
-            power of friendship and the strength within! Get ready to unleash
-            your inner warrior! 🥋✨
+            {description}
           </p>
         </div>
       </article>
@@ -37,7 +39,14 @@ const Banner = ({ backgroundImage }: BannerProps) => {
       <div className={styles.Banner__footer}>
         {/* Contenedor del porcentaje en la parte inferior derecha */}
         <div className={styles.Banner__footerContent}>
-          <IconHeart />
+          <button
+            onClick={() => handleToggleFavorite(id as string)}
+            className=" cursor-pointer"
+          >
+            <IconHeart
+              isFavorite={favoriteMovies.some((movie) => movie.id === id)}
+            />
+          </button>
           <div className={styles.Banner__percentage}>97%</div>
         </div>
       </div>

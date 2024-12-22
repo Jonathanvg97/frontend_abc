@@ -2,8 +2,15 @@
 import React, { useState } from "react";
 import { LogoABC, IconMenu, IconLogin } from "@public/icons";
 import ModalLogin from "../modalLogin/modalLogin";
+import { useRouter } from "next/navigation";
+import { useMovieStore } from "@/store/useMovieStore";
 
 const SideNav: React.FC = () => {
+  //Destructuring of router
+  const router = useRouter();
+  //Store
+  const { currentRoute, setCurrentRoute } = useMovieStore();
+
   //Local State
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,6 +26,18 @@ const SideNav: React.FC = () => {
     setIsMenuOpen(false);
   };
 
+  // Función para navegar
+  // Función para navegar
+  const handleNavClick = (route: string) => {
+    if (currentRoute !== route) {
+      setCurrentRoute(route); // Solo actualizar si el route es diferente
+    }
+    router.push(route); // Navegar a la nueva ruta
+  };
+
+  // useEffect(() => {
+  // }, [currentRoute]);
+
   //UI
   return (
     <section className="SideNav flex bg-black h-24 w-full items-center p-4">
@@ -29,10 +48,16 @@ const SideNav: React.FC = () => {
         {/* Desktop Menu */}
         <nav className="hidden sm:flex flex-row items-center gap-11 text-white font-normal">
           <ul className="flex gap-8 sm:gap-16 flex-wrap cursor-pointer">
-            <li className="scale-95 hover:scale-100 hover:border-b-2 transition-transform duration-200">
-              Popular
+            <li
+              onClick={() => handleNavClick("/")}
+              className="scale-95 hover:scale-100 hover:border-b-2 transition-transform duration-200 font-semibold"
+            >
+              Home
             </li>
-            <li className="scale-95 hover:scale-100 hover:border-b-2 transition-transform duration-200">
+            <li
+              onClick={() => handleNavClick("/favoriteMovies")}
+              className="scale-95 hover:scale-100 hover:border-b-2 transition-transform duration-200 font-semibold"
+            >
               Favoritas
             </li>
           </ul>

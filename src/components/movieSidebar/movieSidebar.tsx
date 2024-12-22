@@ -1,6 +1,7 @@
 "use client";
 import useMovies from "@/hooks/useMovies";
 import { useMovieStore } from "@/store/useMovieStore";
+import { IconSearch } from "@public/icons";
 import { useState, useEffect } from "react";
 
 export default function MovieSidebar() {
@@ -100,19 +101,7 @@ export default function MovieSidebar() {
                 onChange={handleSearch}
                 className="w-full p-2 pr-8 py-2 bg-zinc-900 border border-zinc-800 rounded-md text-white placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-700"
               />
-              <svg
-                className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.3-4.3" />
-              </svg>
+              <IconSearch />
             </div>
           </div>
 

@@ -5,3 +5,4 @@ export { IconLogin } from "./iconLogin";
 export { IconnBack } from "./iconBack";
 export { IconEmail } from "./iconEmail";
 export { IconHeart } from "./iconHeart";
+export { IconSearch } from "./iconSearch";

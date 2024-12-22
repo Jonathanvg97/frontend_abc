@@ -1,19 +1,24 @@
-export const IconHeart = () => {
+interface IconHeartProps {
+  isFavorite: boolean;
+}
+
+export const IconHeart = ({ isFavorite }: IconHeartProps) => {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={35}
-      height={35}
-      viewBox="0 0 24 24"
-      fill="none"
+      className={`h-5 w-5 transition-colors ${
+        isFavorite ? "text-red-500" : "text-white group-hover/fav:text-red-500"
+      }`}
+      fill={isFavorite ? "currentColor" : "none"}
       stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="icon icon-tabler icons-tabler-outline icon-tabler-heart"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+      />
     </svg>
   );
 };

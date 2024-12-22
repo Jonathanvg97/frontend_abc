@@ -34,11 +34,14 @@ export interface Movie {
   rating: number;
   isFavorite?: boolean;
   slug?: string;
+  description?: string;
 }
 
 export interface MovieCardProps {
   movie: Movie;
-  onToggleFavorite: (id: string) => void;
+  getMovieInfo: (movie: Movie) => void;
+  handleToggleFavorite: (movieId: string) => void;
+  isFavorite?: boolean;
 }
 
 export type Genre = {
