@@ -15,6 +15,7 @@ Adicionalmente, el manejo del estado se realiza con **Zustand**, siguiendo una a
 - [Tecnologías Usadas](#tecnologías-usadas)
 - [Estructura de Carpetas](#estructura-de-carpetas)
 - [Variables de Entorno](#variables-de-entorno)
+- [Despliegue](#despliegue)
 - [Licencia](#licencia)
 
 ---
@@ -184,6 +185,9 @@ Crea un archivo .env en la raíz del proyecto y agrega las siguientes variables:
 2. **NEXT_PUBLIC_API_CLIENT**
 3. **NEXT_PUBLIC_TOKEN_ACCESS**
 4. **NEXT_PUBLIC_NODE_ENV**
+
+# Despliegue
+**https://frontend-abc.vercel.app/**
 
 ## Licencia
 
