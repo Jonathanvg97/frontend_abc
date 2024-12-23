@@ -1,12 +1,13 @@
+import { Suspense } from "react";
 import MainLayout from "@/app/layouts/MainLayout";
 import MovieGrid from "@/components/cardMovie/movieGrid";
 import MovieSidebar from "@/components/movieSidebar/movieSidebar";
 import { MovieGridSkeleton } from "@/components/UI/movieSkeleton";
 import { getAllMovies, getMoviesImages } from "@/services/movies.service";
 import { adaptMovie } from "@/utils/adapters/adaptMovieResponse";
-import { Suspense } from "react";
 
 async function MovieContent() {
+  // Fetch movies
   const moviesResponse = await getAllMovies(1);
   if (!moviesResponse) {
     return <div>No movies found.</div>;
@@ -25,11 +26,7 @@ async function MovieContent() {
     };
   });
 
-  return moviesWithImages.length > 0 ? (
-    <MovieGrid initialMovies={moviesWithImages} />
-  ) : (
-    <div>No movies available</div>
-  );
+  return <MovieGrid initialMovies={moviesWithImages} />;
 }
 
 export default function Home() {

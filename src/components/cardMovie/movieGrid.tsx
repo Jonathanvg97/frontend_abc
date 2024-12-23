@@ -33,6 +33,7 @@ export default function MovieGrid({
     setDefaultDataBanner,
     favoriteMovies,
     currentRoute,
+    setCurrentRoute,
   } = useMovieStore();
 
   // Hook
@@ -46,51 +47,62 @@ export default function MovieGrid({
   // Local state
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // Effects
+  // Update currentRoute based on pathname
   useEffect(() => {
-    setIsLoading(true);
-    if (allMovies.length === 0 && initialMovies.length > 0) {
-      setAllMovies(initialMovies);
-    }
-    setIsLoading(false);
-  }, [allMovies, initialMovies, setAllMovies]);
+    setCurrentRoute(pathname);
+  }, [pathname, setCurrentRoute]);
 
   useEffect(() => {
-    // Show loading state when route changes
-    setIsLoading(true);
-    const timeoutId = setTimeout(() => {
+    if (currentRoute !== "/favoriteMovies") {
+      setIsLoading(true);
+      if (allMovies.length === 0 && initialMovies.length > 0) {
+        setAllMovies(initialMovies);
+      }
       setIsLoading(false);
-    }, 500); // Add a minimum loading time to prevent flashing
-
-    return () => clearTimeout(timeoutId);
-  }, [pathname]);
+    } else {
+      setIsLoading(false);
+    }
+  }, [allMovies, initialMovies, setAllMovies, currentRoute]);
 
   useEffect(() => {
-    handleFilterMovies(allMovies, searchValue);
+    if (currentRoute !== "/favoriteMovies") {
+      setIsLoading(true);
+      const timeoutId = setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [pathname, currentRoute]);
+
+  useEffect(() => {
+    if (currentRoute !== "/favoriteMovies") {
+      handleFilterMovies(allMovies, searchValue);
+    }
     setCurrentPage(1);
-  }, [searchValue, allMovies, handleFilterMovies]);
+  }, [searchValue, allMovies, handleFilterMovies, currentRoute]);
 
   useEffect(() => {
-    if (
-      currentRoute === "/favoriteMovies" &&
-      favoriteMovies.length <= (currentPage - 1) * moviesPerPage
-    ) {
-      if (currentPage > 1) {
-        setCurrentPage(currentPage - 1);
+    if (currentRoute === "/favoriteMovies") {
+      const maxPage = Math.ceil(favoriteMovies.length / moviesPerPage);
+      if (currentPage > maxPage && maxPage > 0) {
+        setCurrentPage(maxPage);
       }
     }
   }, [favoriteMovies, currentPage, moviesPerPage, currentRoute]);
 
-  // Show loading state during transitions
-  if (isPending || isLoading) {
+  if ((isPending || isLoading) && currentRoute !== "/favoriteMovies") {
     return <MovieGridSkeleton />;
   }
 
-  const moviesToDisplay = searchValue ? filteredMovies : allMovies;
-  const totalMovies =
-    currentRoute === "/favoriteMovies"
-      ? favoriteMovies.length
-      : moviesToDisplay.length;
+  const moviesToDisplay =
+    pathname === "/favoriteMovies"
+      ? favoriteMovies
+      : searchValue
+      ? filteredMovies
+      : allMovies;
+
+  const totalMovies = moviesToDisplay.length;
   const totalPages = Math.ceil(totalMovies / moviesPerPage);
 
   const handlePageChange = (page: number) => {
@@ -100,10 +112,10 @@ export default function MovieGrid({
   };
 
   const startIndex = (currentPage - 1) * moviesPerPage;
-  const currentMovies =
-    currentRoute === "/favoriteMovies"
-      ? favoriteMovies.slice(startIndex, startIndex + moviesPerPage)
-      : moviesToDisplay.slice(startIndex, startIndex + moviesPerPage);
+  const currentMovies = moviesToDisplay.slice(
+    startIndex,
+    startIndex + moviesPerPage
+  );
 
   const handleGetMovieInfo = (movie: Movie) => {
     const newBanner = getMovieInfo(movie);
@@ -118,22 +130,26 @@ export default function MovieGrid({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  if (currentRoute === "/favoriteMovies" && favoriteMovies.length === 0) {
+  const handleViewMovies = () => {
+    startTransition(() => {
+      setCurrentRoute("/");
+      router.push("/");
+    });
+  };
+
+  // Handle empty states - now using pathname instead of currentRoute
+  if (pathname === "/favoriteMovies" && favoriteMovies.length === 0) {
     return (
       <MoviesNotFound
         title="No Favorite Movies"
         description="You don't have any favorite movies yet. Start adding some to your favorites list!"
         actionText="View Movies"
-        onAction={() => {
-          startTransition(() => {
-            router.push("/");
-          });
-        }}
+        onAction={handleViewMovies}
       />
     );
   }
 
-  if (moviesToDisplay.length === 0) {
+  if (moviesToDisplay.length === 0 && pathname !== "/favoriteMovies") {
     return (
       <MoviesNotFound
         title="No Movies Found"

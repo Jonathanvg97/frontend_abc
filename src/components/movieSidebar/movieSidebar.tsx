@@ -101,7 +101,7 @@ export default function MovieSidebar() {
                 onChange={handleSearch}
                 className="w-full p-2 pr-8 py-2 bg-zinc-900 border border-zinc-800 rounded-md text-white placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-700"
               />
-              <div className="flex">
+              <div className="absolute inset-y-0 right-12 flex items-center">
                 <IconSearch />
               </div>
             </div>
@@ -125,8 +125,8 @@ export default function MovieSidebar() {
             <div className="h-px bg-zinc-800 w-full" />
 
             <div
-              className={`space-y-1 scrollbar  transition-all duration-200 ${
-                isOpen ? "max-h-96 overflow-y-auto" : "max-h-0"
+              className={`space-y-1 scrollbar transition-all duration-200 ${
+                isOpen ? "max-h-96 overflow-y-auto" : "max-h-0 hidden"
               }`}
             >
               {genres?.map((gen) => (

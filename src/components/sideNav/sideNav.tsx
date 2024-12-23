@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { LogoABC, IconMenu, IconLogin } from "@public/icons";
 import ModalLogin from "../modalLogin/modalLogin";
 import { useRouter } from "next/navigation";
@@ -34,8 +34,6 @@ const SideNav: React.FC = () => {
     router.push(route); // Navegar a la nueva ruta
   };
 
-  useEffect(() => {}, [currentRoute]);
-
   //UI
   return (
     <section className="SideNav flex bg-black h-24 w-full items-center p-4">
@@ -48,13 +46,19 @@ const SideNav: React.FC = () => {
           <ul className="flex gap-8 sm:gap-16 flex-wrap cursor-pointer">
             <li
               onClick={() => handleNavClick("/")}
-              className="scale-95 hover:scale-100 hover:border-b-2 transition-transform duration-200 font-semibold"
+              className={`scale-95 hover:scale-100 hover:border-b-2 transition-transform duration-200 font-semibold ${
+                currentRoute === "/" ? "border-b-2 border-white" : ""
+              }`}
             >
               Home
             </li>
             <li
               onClick={() => handleNavClick("/favoriteMovies")}
-              className="scale-95 hover:scale-100 hover:border-b-2 transition-transform duration-200 font-semibold"
+              className={`scale-95 hover:scale-100 hover:border-b-2 transition-transform duration-200 font-semibold ${
+                currentRoute === "/favoriteMovies"
+                  ? "border-b-2 border-white"
+                  : ""
+              }`}
             >
               Favoritas
             </li>
@@ -81,10 +85,16 @@ const SideNav: React.FC = () => {
       {isMenuOpen && (
         <nav className="absolute top-24 left-0 bg-black w-full text-white p-4  shadow-lg rounded-md block sm:hidden z-50">
           <ul className="flex flex-col gap-4 ">
-            <li className="border-b-2 scale-95 hover:scale-100 transition-transform duration-200">
-              Popular
+            <li
+              onClick={() => handleNavClick("/")}
+              className="border-b-2 scale-95 hover:scale-100 transition-transform duration-200"
+            >
+              Home
             </li>
-            <li className="border-b-2 scale-95 hover:scale-100 transition-transform duration-200">
+            <li
+              onClick={() => handleNavClick("/favoriteMovies")}
+              className="border-b-2 scale-95 hover:scale-100 transition-transform duration-200"
+            >
               Favoritas
             </li>
             <li
