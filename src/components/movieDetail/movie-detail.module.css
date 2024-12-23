@@ -1,0 +1,174 @@
+.container {
+  min-height: 100vh;
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
+.hero {
+  position: relative;
+  height: 70vh;
+  width: 100%;
+}
+
+.heroImage {
+  object-fit: cover;
+  filter: brightness(0.5);
+}
+
+.gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #0a0a0a, transparent);
+}
+
+.heroContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 2rem;
+  z-index: 1;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.metadata {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+}
+
+.mainContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.section {
+  background-color: #1a1a1a;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.trailerContainer {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.trailer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.castGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.castCard {
+  text-align: center;
+}
+
+.placeholder {
+  width: 100%; /* Aseguramos que ocupe todo el ancho del contenedor */
+  height: 100%; /* Aseguramos que ocupe todo el alto del contenedor */
+  display: flex;
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  background-color: #d1d5db; /* Gris claro */
+}
+
+.castImage {
+  position: relative;
+  width: 200px; /* Ajusta según el tamaño deseado */
+  height: 300px; /* Ajusta según el tamaño deseado */
+}
+
+.placeholder span {
+  color: white;
+  font-size: 14px;
+  text-align: center;
+}
+
+.actorName {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.characterName {
+  color: #a0a0a0;
+  font-size: 0.875rem;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.detailItem h3 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.detailItem p {
+  color: #a0a0a0;
+}
+
+.genreList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.backButton {
+  position: absolute; /* Para posicionar el botón encima de la imagen */
+  left: 20px;
+  background-color: var(--primary);
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 10;
+}
+.backButton:hover {
+  background-color: rgb(182, 142, 10);
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 3.5rem;
+  }
+}

@@ -39,7 +39,9 @@ const SideNav: React.FC = () => {
     <section className="SideNav flex bg-black h-24 w-full items-center p-4">
       <article className="flex gap-20 items-center w-full ml-16">
         {/* Logo */}
-        <LogoABC />
+        <button onClick={() => handleNavClick("/")}>
+          <LogoABC />
+        </button>
 
         {/* Desktop Menu */}
         <nav className="hidden sm:flex flex-row items-center gap-11 text-white font-normal">

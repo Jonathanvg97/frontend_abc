@@ -1,15 +1,19 @@
 import { useState, useCallback } from "react";
-import { Genre, Movie } from "@/utils/types/movieTypes";
-import { getGenres } from "../services/movies.service";
+import { Genre, Movie, MovieDetail } from "@/utils/types/movieTypes";
+import { getGenres, getMovieDetail } from "../services/movies.service";
 import { useMovieStore } from "@/store/useMovieStore";
+import { useRouter } from "next/navigation";
 
 const useMovies = () => {
   //Store
-  const { toggleFavorite } = useMovieStore();
+  const { toggleFavorite, setMovieDetail } = useMovieStore();
+  //Destructuring
+  const router = useRouter();
   //Local state
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [loadingGenres, setLoadingGenres] = useState<boolean>(false);
+  const [loadingDetail, setLoadingDetail] = useState<boolean>(false);
 
   // Función para filtrar las películas
   const handleFilterMovies = useCallback((movies: Movie[], query: string) => {
@@ -46,6 +50,25 @@ const useMovies = () => {
     [toggleFavorite]
   );
 
+  const getDetailMovie = async (movieId: string) => {
+    setLoadingDetail(true);
+    try {
+      const data: MovieDetail = await getMovieDetail(movieId);
+      if (data) {
+        setMovieDetail(data as MovieDetail);
+        router.push(movieId);
+      }
+    } catch (error) {
+      console.error("Error fetching movie detail:", error);
+    } finally {
+      setLoadingDetail(false);
+    }
+  };
+
+  const handleBack = () => {
+    router.push("/");
+  };
+
   return {
     handleFilterMovies,
     filteredMovies,
@@ -54,6 +77,9 @@ const useMovies = () => {
     loadingGenres,
     getMovieInfo,
     handleToggleFavorite,
+    getDetailMovie,
+    loadingDetail,
+    handleBack,
   };
 };
 

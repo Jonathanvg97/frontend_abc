@@ -52,3 +52,30 @@ export type Genre = {
 export interface Genres {
   data: Genre[];
 }
+
+export interface MovieDetail {
+  id: number
+  name: string
+  image: string
+  runtime: number
+  year: string
+  trailers: Array<{
+    id: number
+    name: string
+    url: string
+  }>
+  genres: Array<{
+    id: number
+    name: string
+  }>
+  characters: Array<{
+    name: string
+    personName: string
+    personImgURL: string
+    peopleType: string
+  }>
+  artworks: Array<{
+    image: string
+    type: number
+  }>
+} 

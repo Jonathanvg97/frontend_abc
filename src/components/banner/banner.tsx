@@ -9,7 +9,7 @@ const Banner = () => {
   //Store
   const { defaultDataBanner, favoriteMovies } = useMovieStore();
   //Hook
-  const { handleToggleFavorite } = useMovies();
+  const { handleToggleFavorite, getDetailMovie, loadingDetail } = useMovies();
   const { id, title, posterUrl, description } = defaultDataBanner || {};
 
   return (
@@ -51,6 +51,13 @@ const Banner = () => {
                   : "text-white group-hover/fav:text-red-500"
               }`}
             />
+          </button>
+          <button
+            className="bg-primary rounded-lg p-2"
+            onClick={() => getDetailMovie(id as string)}
+            disabled={loadingDetail}
+          >
+            {loadingDetail ? "Loading..." : "More info"}
           </button>
           <div className={styles.Banner__percentage}>97%</div>
         </div>

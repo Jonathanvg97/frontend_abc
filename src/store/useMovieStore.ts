@@ -1,6 +1,6 @@
 import { create, StateCreator } from "zustand";
 import zukeeper from "zukeeper";
-import { Movie } from "@/utils/types/movieTypes";
+import { Movie, MovieDetail } from "@/utils/types/movieTypes";
 import envs from "@/config/envs";
 
 interface MovieState {
@@ -26,6 +26,8 @@ interface MovieState {
   }) => void;
   currentRoute: string;
   setCurrentRoute: (route: string) => void;
+  movieDetail: MovieDetail | null;
+  setMovieDetail: (movie: MovieDetail | null) => void;
 }
 
 const stateCreator: StateCreator<MovieState> = (set) => ({
@@ -79,6 +81,8 @@ const stateCreator: StateCreator<MovieState> = (set) => ({
   }) => set({ defaultDataBanner: value }),
   currentRoute: "",
   setCurrentRoute: (route: string) => set({ currentRoute: route }),
+  movieDetail: null,
+  setMovieDetail: (movie) => set({ movieDetail: movie }),
 });
 
 export const useMovieStore = create<MovieState>(

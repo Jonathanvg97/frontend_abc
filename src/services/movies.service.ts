@@ -77,3 +77,29 @@ export const getGenres = async () => {
     return [];
   }
 };
+
+export const getMovieDetail = async (movieId: string) => {
+  // Reemplaza :id con el movieId en la ruta
+  const url = pathsAPIS.GET_DETAIL.replace(":id", movieId);
+  try {
+    const response = await axios.get(`${API_URL}${url}`, {
+      headers: {
+        Authorization: envs.TOKEN_ACCESS,
+      },
+      params: {
+        short: false,
+      },
+    });
+    return response.data.data;
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      console.error(
+        "Error fetching movie detail:",
+        error.response?.data || error.message
+      );
+    } else {
+      console.error("Unexpected error:", error);
+    }
+    return null;
+  }
+};
