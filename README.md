@@ -115,7 +115,8 @@ La aplicación sigue un enfoque de arquitectura limpia, donde:
 5. **Dexie.js: Una capa para IndexedDB que facilita la persistencia de datos en el navegador.**
 6. **Zustand: Una librería pequeña y rápida para la gestión de estado.**
 7. **TheTVDB API: API para obtener datos de películas.**
-8. **React: Para la construcción de la interfaz de usuario.**
+8. **Documentación swagger API https://thetvdb.github.io/v4-api/#/Genres/getGenreBase**
+9. **React: Para la construcción de la interfaz de usuario.**
 
 ## Estructura de Carpetas
 
@@ -187,6 +188,7 @@ Crea un archivo .env en la raíz del proyecto y agrega las siguientes variables:
 4. **NEXT_PUBLIC_NODE_ENV**
 
 # Despliegue
+
 **https://frontend-abc.vercel.app/**
 
 ## Licencia
