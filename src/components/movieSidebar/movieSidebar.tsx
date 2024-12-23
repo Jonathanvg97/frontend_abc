@@ -6,13 +6,14 @@ import { useState, useEffect } from "react";
 
 export default function MovieSidebar() {
   //Store
-  const { searchValue, setSearchValue } = useMovieStore();
+  const { searchValue, setSearchValue, clearFilters } = useMovieStore();
   //Hook
-  const { getAllGenres, genres } = useMovies();
+  const { getAllGenres, genres, getMoviesFiltered, loadingDetail } =
+    useMovies();
 
   //Local states
   const [isOpen, setIsOpen] = useState(true);
-  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+  const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   //Effects
@@ -33,8 +34,9 @@ export default function MovieSidebar() {
   }, [getAllGenres]);
 
   //Functions
-  const handleGenreClick = (genre: string) => {
+  const handleGenreClick = (genre: number) => {
     setSelectedGenre(genre);
+    getMoviesFiltered(genre);
     if (window.innerWidth < 768) {
       setIsMobileMenuOpen(false);
     }
@@ -43,6 +45,11 @@ export default function MovieSidebar() {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchQuery = e.target.value;
     setSearchValue(searchQuery);
+  };
+
+  const handleClearFilter = () => {
+    setSelectedGenre(null);
+    clearFilters();
   };
   //UI
   return (
@@ -108,43 +115,53 @@ export default function MovieSidebar() {
           </div>
 
           {/* Genres Section */}
-          <div className="space-y-2">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="w-full px-4 py-2 flex justify-between items-center text-white hover:bg-zinc-900 rounded-md transition-colors"
-            >
-              <span>Genres</span>
-              <span
-                className={`text-xs transition-transform duration-200 ${
-                  isOpen ? "rotate-180" : ""
+          {!selectedGenre ? (
+            <div className="space-y-2">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full px-4 py-2 flex justify-between items-center text-white hover:bg-zinc-900 rounded-md transition-colors"
+              >
+                <span>Genres</span>
+                <span
+                  className={`text-xs transition-transform duration-200 ${
+                    isOpen ? "rotate-180" : ""
+                  }`}
+                >
+                  ▼
+                </span>
+              </button>
+              <div className="h-px bg-zinc-800 w-full" />
+
+              <div
+                className={`space-y-1 scrollbar transition-all duration-200 ${
+                  isOpen ? "max-h-96 overflow-y-auto" : "max-h-0 hidden"
                 }`}
               >
-                ▼
-              </span>
-            </button>
-            <div className="h-px bg-zinc-800 w-full" />
-
-            <div
-              className={`space-y-1 scrollbar transition-all duration-200 ${
-                isOpen ? "max-h-96 overflow-y-auto" : "max-h-0 hidden"
-              }`}
-            >
-              {genres?.map((gen) => (
-                <button
-                  key={gen.id}
-                  onClick={() => handleGenreClick(gen.name)}
-                  className={`w-full px-4 py-2 text-left rounded-md transition-colors
-      ${
-        selectedGenre === gen.name
-          ? "bg-[#1C1C1C] text-white"
-          : "text-zinc-400 hover:text-white hover:bg-zinc-900"
-      }`}
-                >
-                  {gen.name}
-                </button>
-              ))}
+                {genres?.map((gen) => (
+                  <button
+                    key={gen.id}
+                    onClick={() => handleGenreClick(Number(gen.id))}
+                    className={`w-full px-4 py-2 text-left rounded-md transition-colors
+                    ${
+                      selectedGenre === Number(gen.id)
+                        ? "bg-[#1C1C1C] text-white"
+                        : "text-zinc-400 hover:text-white hover:bg-zinc-900"
+                    }`}
+                  >
+                    {gen.name}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : (
+            <button
+              onClick={handleClearFilter}
+              disabled={loadingDetail}
+              className="w-full px-4 py-2 flex justify-center items-center text-white bg-primary hover:bg-zinc-900 rounded-md transition-colors font-bold"
+            >
+              {`${loadingDetail ? "Filtering..." : "Clear Filter"}`}
+            </button>
+          )}
         </div>
       </div>
     </>

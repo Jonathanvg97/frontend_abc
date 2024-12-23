@@ -103,3 +103,37 @@ export const getMovieDetail = async (movieId: string) => {
     return null;
   }
 };
+
+export const getMoviesFilter = async (
+  genre: number,
+  country?: string,
+  language?: string
+): Promise<MoviesResponse | null> => {
+  try {
+    const response = await axios.get(
+      `${API_URL}${pathsAPIS.GET_MOVIES_WITH_FILTER}`,
+      {
+        headers: {
+          Authorization: envs.TOKEN_ACCESS,
+        },
+        params: {
+          country: country || "USA",
+          genre: genre,
+          lang: language || "ENG",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      console.error(
+        "Error fetching movies:",
+        error.response?.data || error.message
+      );
+    } else {
+      console.error("Unexpected error:", error);
+    }
+    return null;
+  }
+};

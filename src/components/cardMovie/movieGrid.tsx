@@ -29,6 +29,8 @@ export default function MovieGrid({
   const {
     allMovies,
     setAllMovies,
+    moviesFiltered,
+    moviesWithGenre,
     searchValue,
     setDefaultDataBanner,
     favoriteMovies,
@@ -80,7 +82,14 @@ export default function MovieGrid({
       handleFilterMovies(allMovies, searchValue);
     }
     setCurrentPage(1);
-  }, [searchValue, allMovies, handleFilterMovies, currentRoute]);
+  }, [
+    searchValue,
+    allMovies,
+    handleFilterMovies,
+    currentRoute,
+    moviesFiltered,
+    moviesWithGenre,
+  ]);
 
   useEffect(() => {
     if (currentRoute === "/favoriteMovies") {
@@ -98,6 +107,8 @@ export default function MovieGrid({
   const moviesToDisplay =
     pathname === "/favoriteMovies"
       ? favoriteMovies
+      : moviesFiltered
+      ? moviesWithGenre // Usar las películas filtradas por género cuando `moviesFiltered` es true
       : searchValue
       ? filteredMovies
       : allMovies;
@@ -112,7 +123,7 @@ export default function MovieGrid({
   };
 
   const startIndex = (currentPage - 1) * moviesPerPage;
-  const currentMovies = moviesToDisplay.slice(
+  const currentMovies = moviesToDisplay?.slice(
     startIndex,
     startIndex + moviesPerPage
   );

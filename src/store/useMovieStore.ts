@@ -29,6 +29,11 @@ interface MovieState {
   setCurrentRoute: (route: string) => void;
   movieDetail: MovieDetail | null;
   setMovieDetail: (movie: MovieDetail | null) => void;
+  moviesWithGenre: Movie[];
+  setMoviesWithGenre: (movies: Movie[]) => void;
+  moviesFiltered: boolean;
+  setMoviesFiltered: (value: boolean) => void;
+  clearFilters: () => void; // Función para limpiar filtros
 }
 
 const stateCreator: StateCreator<MovieState> = (set) => ({
@@ -86,6 +91,18 @@ const stateCreator: StateCreator<MovieState> = (set) => ({
   setCurrentRoute: (route: string) => set({ currentRoute: route }),
   movieDetail: null,
   setMovieDetail: (movie) => set({ movieDetail: movie }),
+  moviesFiltered: false,
+  setMoviesFiltered: (value: boolean) => set({ moviesFiltered: value }),
+  moviesWithGenre: [],
+  setMoviesWithGenre: (movies: Movie[]) => {
+    set({ moviesWithGenre: movies });
+    set({ moviesFiltered: true });
+  },
+  clearFilters: () => {
+    // Limpiar cualquier estado relacionado con los filtros
+    set({ moviesFiltered: false });
+    set({ moviesWithGenre: [] }); // Resetear películas con género (si es necesario)
+  },
 });
 
 // Cargar las películas favoritas desde Dexie cuando el store se inicializa
