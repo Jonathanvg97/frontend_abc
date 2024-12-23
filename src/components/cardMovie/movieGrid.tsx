@@ -160,6 +160,11 @@ export default function MovieGrid({
     );
   }
 
+  // Asegurarse de que favoriteMovies sea siempre un array
+  const safeFavoriteMovies = Array.isArray(favoriteMovies)
+    ? favoriteMovies
+    : [];
+  //UI
   return (
     <div>
       <div className="grid grid-cols-2 gap-4 p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
@@ -169,7 +174,7 @@ export default function MovieGrid({
             movie={movie}
             getMovieInfo={handleGetMovieInfo}
             handleToggleFavorite={handleToggleFavorite}
-            isFavorite={favoriteMovies.some((fav) => fav.id === movie.id)}
+            isFavorite={safeFavoriteMovies.some((fav) => fav.id === movie.id)}
           />
         ))}
       </div>

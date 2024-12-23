@@ -12,6 +12,12 @@ const Banner = () => {
   const { handleToggleFavorite, getDetailMovie, loadingDetail } = useMovies();
   const { id, title, posterUrl, description } = defaultDataBanner || {};
 
+  // Asegurarse de que favoriteMovies sea siempre un array
+  const safeFavoriteMovies = Array.isArray(favoriteMovies)
+    ? favoriteMovies
+    : [];
+
+  //UI
   return (
     <section className={styles.Banner}>
       <article className={styles.Banner__article}>
@@ -44,9 +50,9 @@ const Banner = () => {
             className=" cursor-pointer"
           >
             <IconHeart
-              isFavorite={favoriteMovies.some((movie) => movie.id === id)}
+              isFavorite={safeFavoriteMovies?.some((movie) => movie.id === id)}
               className={`h-5 w-5 transition-colors ${
-                favoriteMovies.some((movie) => movie.id === id)
+                safeFavoriteMovies.some((movie) => movie.id === id)
                   ? "text-red-500"
                   : "text-white group-hover/fav:text-red-500"
               }`}
