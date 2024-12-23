@@ -73,8 +73,7 @@ const useMovies = () => {
       setMoviesWithGenre(moviesWithImages);
     } catch (error) {
       console.error("Error fetching movies:", error);
-    }
-    finally {
+    } finally {
       setLoadingDetail(false);
     }
   };

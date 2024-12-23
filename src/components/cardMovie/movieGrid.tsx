@@ -82,14 +82,14 @@ export default function MovieGrid({
       handleFilterMovies(allMovies, searchValue);
     }
     setCurrentPage(1);
-  }, [
-    searchValue,
-    allMovies,
-    handleFilterMovies,
-    currentRoute,
-    moviesFiltered,
-    moviesWithGenre,
-  ]);
+  }, [searchValue, allMovies, handleFilterMovies, currentRoute]);
+
+  useEffect(() => {
+    if (moviesFiltered) {
+      handleFilterMovies(moviesWithGenre, searchValue);
+    }
+    setCurrentPage(1);
+  }, [moviesFiltered, searchValue, moviesWithGenre, handleFilterMovies]);
 
   useEffect(() => {
     if (currentRoute === "/favoriteMovies") {
@@ -104,14 +104,17 @@ export default function MovieGrid({
     return <MovieGridSkeleton />;
   }
 
-  const moviesToDisplay =
-    pathname === "/favoriteMovies"
-      ? favoriteMovies
-      : moviesFiltered
-      ? moviesWithGenre // Usar las películas filtradas por género cuando `moviesFiltered` es true
-      : searchValue
-      ? filteredMovies
-      : allMovies;
+  let moviesToDisplay;
+
+  if (pathname === "/favoriteMovies") {
+    moviesToDisplay = favoriteMovies;
+  } else if (searchValue) {
+    moviesToDisplay = filteredMovies;
+  } else if (moviesFiltered) {
+    moviesToDisplay = moviesWithGenre;
+  } else {
+    moviesToDisplay = allMovies;
+  }
 
   const totalMovies = moviesToDisplay.length;
   const totalPages = Math.ceil(totalMovies / moviesPerPage);

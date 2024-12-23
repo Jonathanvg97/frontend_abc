@@ -26,11 +26,19 @@ const CardMovie = ({
     >
       {/* Poster Image */}
       <div className="relative aspect-[2/3] overflow-hidden rounded-lg">
-        <img
-          src={movie.posterUrl}
-          alt={movie.title}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
+        {movie.posterUrl ? (
+          <img
+            src={movie.posterUrl}
+            alt={movie.title}
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <div
+            className={`h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 bg-gray-400 flex items-center justify-center`}
+          >
+            <span className="text-white">image not available</span>
+          </div>
+        )}
 
         {/* Info Overlay */}
         <div className="absolute bottom-0 left-0 right-0 bg-black/80 p-4">
