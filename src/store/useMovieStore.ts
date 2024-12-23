@@ -47,31 +47,73 @@ const stateCreator: StateCreator<MovieState> = (set) => ({
   setFavoriteMovies: (movies: Movie[]) => set({ favoriteMovies: movies }),
   toggleFavorite: (id: string) =>
     set((state) => {
-      const movie = state.allMovies.find((movie) => movie.id === id);
+      // Si moviesFiltered es true, se trabaja con moviesWithGenre, sino con allMovies
+      const moviesList = state.moviesFiltered
+        ? state.moviesWithGenre
+        : state.allMovies;
+      const movie = moviesList.find((movie) => movie.id === id);
+
       if (movie) {
         const isFavorite = state.favoriteMovies.some((fav) => fav.id === id);
 
-        // Si la película está en favoritos, Se elimina de favoriteMovies
+        // Si la película está en favoritos, se elimina de favoriteMovies
         if (isFavorite) {
           db.favoriteMovies.delete(id);
           const updatedFavorites = state.favoriteMovies.filter(
             (fav) => fav.id !== id
           );
 
-          return { favoriteMovies: updatedFavorites };
+          // Si moviesFiltered es true, también se actualiza moviesWithGenre
+          const updatedMoviesWithGenre = state.moviesFiltered
+            ? state.moviesWithGenre.map((m) =>
+                m.id === id ? { ...m, isFavorite: false } : m
+              )
+            : state.moviesWithGenre;
+
+          // También se  actualiza allMovies si no se esta trabajando con moviesWithGenre
+          const updatedAllMovies = state.moviesFiltered
+            ? state.allMovies
+            : state.allMovies.map((m) =>
+                m.id === id ? { ...m, isFavorite: false } : m
+              );
+
+          return {
+            favoriteMovies: updatedFavorites,
+            allMovies: updatedAllMovies,
+            moviesWithGenre: updatedMoviesWithGenre,
+          };
         } else {
-          // Si no está en favoritos, se agregamos y se asignas isFavorite: true
+          // Si no está en favoritos, se agrega y se asigna isFavorite: true
           db.favoriteMovies.add(movie);
           const updatedFavorites = [
             ...state.favoriteMovies,
-            { ...movie, isFavorite: true }, // añade isFavorite: true
+            { ...movie, isFavorite: true },
           ];
 
-          return { favoriteMovies: updatedFavorites };
+          // Si moviesFiltered es true, también se actualiza moviesWithGenre
+          const updatedMoviesWithGenre = state.moviesFiltered
+            ? state.moviesWithGenre.map((m) =>
+                m.id === id ? { ...m, isFavorite: true } : m
+              )
+            : state.moviesWithGenre;
+
+          // También actualiza allMovies si no se esta trabajando con moviesWithGenre
+          const updatedAllMovies = state.moviesFiltered
+            ? state.allMovies
+            : state.allMovies.map((m) =>
+                m.id === id ? { ...m, isFavorite: true } : m
+              );
+
+          return {
+            favoriteMovies: updatedFavorites,
+            allMovies: updatedAllMovies,
+            moviesWithGenre: updatedMoviesWithGenre,
+          };
         }
       }
       return state;
     }),
+
   searchValue: "",
   setSearchValue: (value: string) => set({ searchValue: value }),
   defaultDataBanner: {

@@ -33,6 +33,12 @@ export default function MovieSidebar() {
     getAllGenres();
   }, [getAllGenres]);
 
+  // Efecto para restaurar el `selectedGenre` si no está presente
+  useEffect(() => {
+    if (selectedGenre === null) {
+      clearFilters();
+    }
+  }, [selectedGenre, clearFilters]);
   //Functions
   const handleGenreClick = (genre: number) => {
     setSelectedGenre(genre);
